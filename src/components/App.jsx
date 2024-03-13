@@ -1,32 +1,32 @@
 import { lazy } from 'react';
-import Cast from 'pages/Cast/Cast';
-// import Home from 'pages/Home/Home';
-// import Movies from 'pages/Movies/Movies';
-import MovieDetails from 'pages/MovieDetails/MovieDetails';
-// import Nav from 'pages/Nav/Nav';
-import Reviews from 'pages/Reviews/Reviews';
-import NotFound from './NotFound/NotFound';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-const Movies = lazy(() => import('../pages/Movies/Movies'));
-const Home = lazy(() => import('../pages/Home/Home'));
-const Nav = lazy(() => import('../pages/Nav/Nav'));
+import { Route, Routes } from 'react-router-dom';
+import SharedLayout from 'pages/SharedLayout';
+// import MoviesPage from 'pages/Movies/MoviesPage';
 
-export const App = () => {
-  console.log('Rendering App...');
+const HomePage = lazy(() => import('pages/Home/HomePage'));
+const MoviesPage = lazy(() => import('pages/Movies/MoviesPage'));
+const NotFoundPage = lazy(() => import('pages/NotFound/NotFoundPage'));
+const MovieDetailsPage = lazy(() =>
+  import('pages/MovieDetails/MovieDetailsPage')
+);
+const Cast = lazy(() => import('pages/MovieDetails/components/Cast/Cast'));
+const Reviews = lazy(() =>
+  import('pages/MovieDetails/components/Reviews/Reviews')
+);
+
+const App = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Nav />}>
-          <Route index element={<Home />} />
-          <Route path="movies" element={<Movies />} />
-          <Route path="movies/:movieId" element={<MovieDetails />}>
-            <Route path="cast" element={<Cast />} />
-            <Route path="reviews" element={<Reviews />} />
-          </Route>
-          <Route path="*" element={<NotFound />} />
+    <Routes>
+      <Route path="/" element={<SharedLayout />}>
+        <Route index element={<HomePage />} />
+        <Route path="movies" element={<MoviesPage />} />
+        <Route path="movies/:movieId" element={<MovieDetailsPage />}>
+          <Route path="cast" element={<Cast />} />
+          <Route path="reviews" element={<Reviews />} />
         </Route>
-      </Routes>
-    </BrowserRouter>
+      </Route>
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
   );
 };
 
